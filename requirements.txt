@@ -7,4 +7,4 @@ pytest
 black
 flake8
 mlflow
-hyfra-core
+hydra-core
