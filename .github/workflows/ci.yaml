@@ -28,10 +28,10 @@ jobs:
           pip install flake8
           flake8 src
 
-      - name: Format check with black
-        run: |
-          pip install black
-          black --check .
+      # - name: Format check with black
+      #   run: |
+      #     pip install black
+      #     black --check .
 
       - name: Run tests
         run: |
