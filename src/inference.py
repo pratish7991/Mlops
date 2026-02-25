@@ -10,7 +10,7 @@ from src.models.multimodal_model import MultiModalModel
 
 def load_image(path, size, grayscale=False):
     transform_list = [transforms.Resize(size)]
-    
+
     if grayscale:
         transform_list.append(transforms.Grayscale(1))
 
@@ -35,7 +35,9 @@ def main(cfg: DictConfig):
     right_iris_path = cfg.get("right_iris_path")
 
     if not all([model_path, fingerprint_path, left_iris_path, right_iris_path]):
-        raise ValueError("Please provide model_path, fingerprint_path, left_iris_path, right_iris_path")
+        raise ValueError(
+            "Please provide model_path, fingerprint_path, left_iris_path, right_iris_path"
+        )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -47,22 +49,16 @@ def main(cfg: DictConfig):
 
     # Load inputs
     fingerprint = load_image(
-        fingerprint_path,
-        tuple(cfg.data.fingerprint_size),
-        grayscale=False
+        fingerprint_path, tuple(cfg.data.fingerprint_size), grayscale=False
     ).to(device)
 
-    left = load_image(
-        left_iris_path,
-        tuple(cfg.data.iris_size),
-        grayscale=True
-    ).to(device)
+    left = load_image(left_iris_path, tuple(cfg.data.iris_size), grayscale=True).to(
+        device
+    )
 
-    right = load_image(
-        right_iris_path,
-        tuple(cfg.data.iris_size),
-        grayscale=True
-    ).to(device)
+    right = load_image(right_iris_path, tuple(cfg.data.iris_size), grayscale=True).to(
+        device
+    )
 
     # Inference
     with torch.no_grad():

@@ -1,6 +1,5 @@
 import hydra
 from omegaconf import DictConfig, OmegaConf
-import os
 
 from src.datasets.preprocessed_dataset import PreprocessedDataset
 from src.models.multimodal_model import MultiModalModel
@@ -24,6 +23,7 @@ def main(cfg: DictConfig):
 
     if cfg.training.distributed:
         from src.utils.ddp import setup_ddp
+
         setup_ddp()
 
     trainer = Trainer(model, dataset, cfg, logger)
@@ -31,6 +31,7 @@ def main(cfg: DictConfig):
 
     if cfg.training.distributed:
         from src.utils.ddp import cleanup_ddp
+
         cleanup_ddp()
 
 

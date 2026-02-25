@@ -3,13 +3,11 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.optim as optim
-import mlflow
 import mlflow.pytorch
 from datetime import datetime
-import yaml
-import time
-import platform
+
 from omegaconf import OmegaConf
+
 
 class Trainer:
     def __init__(self, model, dataset, config, logger):
@@ -29,13 +27,12 @@ class Trainer:
             dataset,
             batch_size=config["data"]["batch_size"],
             shuffle=True,
-            num_workers=config["data"]["num_workers"]
+            num_workers=config["data"]["num_workers"],
         )
 
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = optim.Adam(
-            model.parameters(),
-            lr=config["model"]["learning_rate"]
+            model.parameters(), lr=config["model"]["learning_rate"]
         )
 
         # Create run directory
@@ -45,10 +42,8 @@ class Trainer:
 
         # Save config snapshot
 
-
         with open(os.path.join(self.run_dir, "config.yaml"), "w") as f:
             f.write(OmegaConf.to_yaml(config))
-
 
     def train(self):
         import mlflow
@@ -107,9 +102,7 @@ class Trainer:
 
                 avg_loss = total_loss / len(self.dataloader)
 
-                self.logger.info(
-                    f"Epoch {epoch+1}/{epochs} - Loss: {avg_loss:.4f}"
-                )
+                self.logger.info(f"Epoch {epoch+1}/{epochs} - Loss: {avg_loss:.4f}")
 
                 mlflow.log_metric("loss", avg_loss, step=epoch)
 
@@ -122,11 +115,10 @@ class Trainer:
             # Register model under SAME RUN
             mlflow.register_model(
                 model_uri=f"runs:/{run.info.run_id}/model",
-                name="MultimodalBiometricModel"
+                name="MultimodalBiometricModel",
             )
 
             self.logger.info(f"Model saved to {model_path}")
 
         finally:
             mlflow.end_run()
-

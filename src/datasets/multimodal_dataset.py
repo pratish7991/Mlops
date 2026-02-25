@@ -1,7 +1,7 @@
 import os
 from typing import Tuple, List
 
-import torch
+
 from torch.utils.data import Dataset
 from torchvision import transforms
 from PIL import Image
@@ -18,16 +18,17 @@ class MultiModalDataset(Dataset):
         self.base_path = base_path
         self.num_people = num_people
 
-        self.fingerprint_transform = transforms.Compose([
-            transforms.Resize(fingerprint_size),
-            transforms.ToTensor()
-        ])
+        self.fingerprint_transform = transforms.Compose(
+            [transforms.Resize(fingerprint_size), transforms.ToTensor()]
+        )
 
-        self.iris_transform = transforms.Compose([
-            transforms.Resize(iris_size),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.ToTensor()
-        ])
+        self.iris_transform = transforms.Compose(
+            [
+                transforms.Resize(iris_size),
+                transforms.Grayscale(num_output_channels=1),
+                transforms.ToTensor(),
+            ]
+        )
 
         self.samples = self._collect_samples()
 
@@ -49,12 +50,7 @@ class MultiModalDataset(Dataset):
             right_file = self._get_first_bmp(right_dir)
 
             if fingerprint_file and left_file and right_file:
-                samples.append((
-                    fingerprint_file,
-                    left_file,
-                    right_file,
-                    person_id - 1
-                ))
+                samples.append((fingerprint_file, left_file, right_file, person_id - 1))
 
         if len(samples) == 0:
             raise ValueError("No valid samples found.")
@@ -79,12 +75,8 @@ class MultiModalDataset(Dataset):
             Image.open(fingerprint_path).convert("RGB")
         )
 
-        left_iris = self.iris_transform(
-            Image.open(left_path)
-        )
+        left_iris = self.iris_transform(Image.open(left_path))
 
-        right_iris = self.iris_transform(
-            Image.open(right_path)
-        )
+        right_iris = self.iris_transform(Image.open(right_path))
 
         return fingerprint, left_iris, right_iris, label

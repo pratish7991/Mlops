@@ -3,6 +3,7 @@ import torch.nn as nn
 import torchvision.models as models
 from torchvision.models import MobileNet_V2_Weights
 
+
 class IrisBranch(nn.Module):
     def __init__(self):
         super().__init__()
@@ -11,12 +12,10 @@ class IrisBranch(nn.Module):
             nn.Conv2d(1, 16, kernel_size=3),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
             nn.Conv2d(16, 32, kernel_size=3),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
-            nn.AdaptiveAvgPool2d((1, 1))
+            nn.AdaptiveAvgPool2d((1, 1)),
         )
 
     def forward(self, x):
@@ -41,7 +40,7 @@ class MultiModalModel(nn.Module):
             nn.Linear(1280 + 32 + 32, 128),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(128, num_classes)
+            nn.Linear(128, num_classes),
         )
 
     def forward(self, fingerprint, left_iris, right_iris):

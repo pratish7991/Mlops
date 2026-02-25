@@ -11,9 +11,4 @@ class PreprocessedDataset(Dataset):
 
     def __getitem__(self, idx):
         item = self.data[idx]
-        return (
-            item["fingerprint"],
-            item["left"],
-            item["right"],
-            item["label"]
-        )
+        return (item["fingerprint"], item["left"], item["right"], item["label"])

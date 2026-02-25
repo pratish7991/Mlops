@@ -3,12 +3,10 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from concurrent.futures import ProcessPoolExecutor
-from typing import Tuple, List
+from typing import Tuple
 
 
-def process_person(
-    args: Tuple[str, int, Tuple[int, int], Tuple[int, int]]
-):
+def process_person(args: Tuple[str, int, Tuple[int, int], Tuple[int, int]]):
     base_path, person_id, fingerprint_size, iris_size = args
 
     person_path = os.path.join(base_path, str(person_id))
@@ -32,20 +30,15 @@ def process_person(
     if not (fingerprint_file and left_file and right_file):
         return None
 
-    fingerprint_transform = transforms.Compose([
-        transforms.Resize(fingerprint_size),
-        transforms.ToTensor()
-    ])
-
-    iris_transform = transforms.Compose([
-        transforms.Resize(iris_size),
-        transforms.Grayscale(1),
-        transforms.ToTensor()
-    ])
-
-    fingerprint = fingerprint_transform(
-        Image.open(fingerprint_file).convert("RGB")
+    fingerprint_transform = transforms.Compose(
+        [transforms.Resize(fingerprint_size), transforms.ToTensor()]
     )
+
+    iris_transform = transforms.Compose(
+        [transforms.Resize(iris_size), transforms.Grayscale(1), transforms.ToTensor()]
+    )
+
+    fingerprint = fingerprint_transform(Image.open(fingerprint_file).convert("RGB"))
 
     left = iris_transform(Image.open(left_file))
     right = iris_transform(Image.open(right_file))
@@ -54,7 +47,7 @@ def process_person(
         "fingerprint": fingerprint,
         "left": left,
         "right": right,
-        "label": person_id - 1
+        "label": person_id - 1,
     }
 
 
@@ -64,7 +57,7 @@ def preprocess_dataset(
     fingerprint_size: Tuple[int, int],
     iris_size: Tuple[int, int],
     output_file: str,
-    num_workers: int = 4
+    num_workers: int = 4,
 ):
 
     print("Starting parallel preprocessing...")
@@ -84,7 +77,6 @@ def preprocess_dataset(
     torch.save(results, output_file)
 
     print(f"Saved preprocessed dataset to {output_file}")
-
 
 
 if __name__ == "__main__":

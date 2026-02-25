@@ -11,7 +11,7 @@ def test_preprocessed_dataset_loading(tmp_path):
             "fingerprint": torch.randn(3, 128, 128),
             "left": torch.randn(1, 64, 64),
             "right": torch.randn(1, 64, 64),
-            "label": 0
+            "label": 0,
         }
     ]
 
