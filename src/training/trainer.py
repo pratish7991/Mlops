@@ -3,9 +3,11 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.optim as optim
-import mlflow.pytorch
+# import mlflow.pytorch
 from datetime import datetime
-
+import mlflow
+import time
+import platform
 from omegaconf import OmegaConf
 
 
@@ -46,9 +48,7 @@ class Trainer:
             f.write(OmegaConf.to_yaml(config))
 
     def train(self):
-        import mlflow
-        import time
-        import platform
+
 
         epochs = self.config["training"]["epochs"]
 
