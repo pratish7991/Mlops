@@ -1,5 +1,5 @@
+import torch
 import torch.distributed as dist
-import os
 
 
 def setup_ddp():
