@@ -1,0 +1,30 @@
+defaults:
+  - _self_
+
+data:
+  base_path: data
+  num_people: 45
+  fingerprint_size: [128, 128]
+  iris_size: [64, 64]
+  batch_size: 8
+  num_workers: 4
+  preprocessed_path: data/processed_dataset.pt
+
+model:
+  num_classes: 45
+  learning_rate: 0.0001
+
+training:
+  epochs: 20
+  device: cuda
+  distributed: false
+
+reproducibility:
+  seed: 42
+
+
+# Optional inference CLI args (overridden via CLI)
+model_path: null
+fingerprint_path: null
+left_iris_path: null
+right_iris_path: null

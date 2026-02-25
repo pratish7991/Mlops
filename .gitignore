@@ -1,0 +1,9 @@
+runs/
+mlruns/
+__pycache__/
+*.pt
+.venv/
+data/
+.venv2/
+outputs/
+data

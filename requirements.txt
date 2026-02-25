@@ -1,0 +1,10 @@
+torch
+torchvision
+pyyaml
+pillow
+tqdm
+pytest
+black
+flake8
+mlflow
+hyfra-core
