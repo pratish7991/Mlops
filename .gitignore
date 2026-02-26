@@ -7,3 +7,5 @@ data/
 .venv2/
 outputs/
 data
+multimodal_mlops.egg-info
+logs
