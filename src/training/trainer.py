@@ -50,6 +50,7 @@ class Trainer:
     def train(self):
 
 
+
         epochs = self.config["training"]["epochs"]
 
         mlflow.set_experiment("multimodal_biometric")
@@ -65,7 +66,15 @@ class Trainer:
             # ========== LOG PARAMS ==========
             dataset_size = len(self.dataset)
             device_name = str(self.device)
-
+            print("\n" + "=" * 60)
+            print("🚀 MULTIMODAL BIOMETRIC TRAINING PIPELINE")
+            print("=" * 60)
+            print(f"Device: {self.device}")
+            print(f"Dataset size: {len(self.dataset)}")
+            print(f"Epochs: {epochs}")
+            print(f"Batch size: {self.config['data']['batch_size']}")
+            print(f"Learning rate: {self.config['model']['learning_rate']}")
+            print("=" * 60 + "\n")
             mlflow.log_param("dataset_size", dataset_size)
             mlflow.log_param("device", device_name)
             mlflow.log_param("platform", platform.platform())
@@ -103,6 +112,10 @@ class Trainer:
                 avg_loss = total_loss / len(self.dataloader)
 
                 self.logger.info(f"Epoch {epoch+1}/{epochs} - Loss: {avg_loss:.4f}")
+                print(
+                    f"[Epoch {epoch+1}/{epochs}] "
+                    f"Loss: {avg_loss:.4f}"
+                )
 
                 mlflow.log_metric("loss", avg_loss, step=epoch)
 
@@ -122,3 +135,10 @@ class Trainer:
 
         finally:
             mlflow.end_run()
+            print("\n" + "=" * 60)
+            print("✅ TRAINING COMPLETED SUCCESSFULLY")
+            print(f"Final Loss: {avg_loss:.4f}")
+            print(f"Model saved to: {model_path}")
+            print(f"MLflow Run ID: {run.info.run_id}")
+            print("=" * 60 + "\n")
+

@@ -8,3 +8,5 @@ black
 flake8
 mlflow
 hydra-core
+fastapi
+uvicorn
