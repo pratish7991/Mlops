@@ -56,4 +56,5 @@ COPY --from=builder /app/scripts /app/scripts
 EXPOSE 8000
 
 # Default command (serving mode)
-ENTRYPOINT ["python", "-m", "src.serve"]
+ENTRYPOINT ["python", "-m", "src.main"]
+

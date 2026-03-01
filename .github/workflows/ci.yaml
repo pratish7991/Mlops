@@ -88,6 +88,7 @@ jobs:
       - name: Pull Docker Image
         run: docker pull ${{ secrets.DOCKER_USERNAME }}/multimodal-mlops:latest
 
-      - name: Run Container in Help Mode
+      - name: Run Training Pipeline
         run: |
-          docker run --rm ${{ secrets.DOCKER_USERNAME }}/multimodal-mlops:latest python -m src.main --help || true
+          docker run --rm \
+            ${{ secrets.DOCKER_USERNAME }}/multimodal-mlops:latest
