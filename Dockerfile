@@ -37,8 +37,14 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# Create non-root user
 RUN useradd -m appuser
+
+# Change ownership of /app
+RUN chown -R appuser:appuser /app
+
 USER appuser
+
 
 COPY --from=builder /app/dist/*.whl /app/
 COPY --from=builder /app/configs /app/configs
