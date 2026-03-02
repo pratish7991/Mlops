@@ -32,22 +32,18 @@ The primary focus of this project is:
 ```mermaid
 flowchart TD
 
-    A[Raw Dataset Folder] --> B[Preprocessing Module]
-    B --> C[Processed Dataset (.pt)]
-    C --> D[Dataset Abstraction Layer]
-    D --> E[PyTorch Training Pipeline]
-    E --> F[MLflow Tracking]
-    F --> G[MLflow Model Registry]
-    E --> H[Model Artifacts]
-    H --> I[Docker Image]
-    I --> J[Deployment Ready Container]
+    A[Raw Biometric Dataset] --> B[Preprocessing Pipeline]
+    B --> C[Serialized Torch Dataset]
 
-    subgraph CI/CD
-        K[GitHub Actions]
-        K --> L[Run Tests]
-        L --> M[Build Docker Image]
-        M --> N[Push to Docker Hub]
-    end
+    C --> D[Dataset Abstraction]
+    D --> E[Training Pipeline]
+
+    E --> F[MLflow Tracking]
+    E --> G[Model Registry]
+
+    G --> H[Docker Image]
+    H --> I[CI/CD Validation]
+
 ```
 
 ---
